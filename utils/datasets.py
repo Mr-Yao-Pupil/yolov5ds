@@ -778,14 +778,20 @@ class LoadSegImagesAndLabels(Dataset):
         # Check cache
         self.label_files = segimg2label_paths(self.img_files)  # labels
         # if prefix == colorstr('train: '):
-        labelcounter = []
+        # labelcounter = []
+        labelcounter = {k: 0 for k in range(256)}
+        # 修改该处
         for img in self.label_files:
             image = cv2.imread(img, cv2.IMREAD_GRAYSCALE)
             num = image.flatten().tolist()
-            labelcounter.extend(num)
+            single_count = Counter(num)
+            single_count = dict(single_count)
+            for k, v in single_count:
+                labelcounter[k] += v
+            # labelcounter.extend(num)
 
-        labelcounter = Counter(labelcounter)
-        labelcounter = dict(labelcounter)
+        # labelcounter = Counter(labelcounter)
+        # labelcounter = dict(labelcounter)
         segcls = sorted(list(labelcounter.keys()))
         seg_weights = [labelcounter[i] for i in segcls]
         seg_weights_balance = [math.pow(i, 1 / 5) for i in seg_weights]
