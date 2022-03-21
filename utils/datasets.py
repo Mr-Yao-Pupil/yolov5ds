@@ -786,12 +786,16 @@ class LoadSegImagesAndLabels(Dataset):
             num = image.flatten().tolist()
             single_count = Counter(num)
             single_count = dict(single_count)
-            for k, v in single_count:
+            for k, v in single_count.items():
                 labelcounter[k] += v
             # labelcounter.extend(num)
 
         # labelcounter = Counter(labelcounter)
         # labelcounter = dict(labelcounter)
+        cache_dict = labelcounter.copy()
+        for k in cache_dict.keys():
+            if labelcounter[k] == 0:
+                del labelcounter[k]
         segcls = sorted(list(labelcounter.keys()))
         seg_weights = [labelcounter[i] for i in segcls]
         seg_weights_balance = [math.pow(i, 1 / 5) for i in seg_weights]

@@ -500,12 +500,12 @@ def train(hyp,  # path/to/hyp.yaml or hyp dictionary
 
 def parse_opt(known=False):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', type=str, default=ROOT / 'yolov5s.pt', help='initial weights path')
-    parser.add_argument('--cfg', type=str, default='', help='model.yaml path')  # 主网络结构配置文件
+    parser.add_argument('--weights', type=str, default='', help='initial weights path')
+    parser.add_argument('--cfg', type=str, default='models/yolov5m.yaml', help='model.yaml path')  # 主网络结构配置文件
     parser.add_argument('--segcfg', type=str, default='models/segheads.yaml', help='segmentation head yaml path')   # 分割头配置文件
-    parser.add_argument('--data', type=str, default=ROOT / 'data/voc.yaml', help='dataset.yaml path')   # 数据集配置文件
+    parser.add_argument('--data', type=str, default=ROOT / 'data/VOC.yaml', help='dataset.yaml path')   # 数据集配置文件
     parser.add_argument('--hyp', type=str, default=ROOT / 'data/hyps/hyp.scratch.yaml', help='hyperparameters path')    # 超参数地址
-    parser.add_argument('--epochs', type=int, default=300)  # 训练轮次
+    parser.add_argument('--epochs', type=int, default=200)  # 训练轮次
     parser.add_argument('--batch-size', type=int, default=8, help='total batch size for all GPUs, -1 for autobatch')    # batch size
     parser.add_argument('--imgsz', '--img', '--img-size', type=int, default=512, help='train, val image size (pixels)') # 输入图片信息
     parser.add_argument('--rect', action='store_true', help='rectangular training')

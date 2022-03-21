@@ -8,21 +8,19 @@
 
 
 # Train/val/test sets as 1) dir: path/to/imgs, 2) file: path/to/imgs.txt, or 3) list: [path/to/imgs1, path/to/imgs2, ..]
-path: ../datasets/VOC
-train: VOC/det/images/train # train images (relative to 'path')  16551 images
-val: VOC/det/images/test # val images (relative to 'path')  4952 images
-road_seg_train: VOC/seg/images/train
-road_seg_val: VOC/seg/images/val
+path: /home/lanyouai/YaozhichaoProject/dataset/ceymo/yolov5_with_seg_data
+train: det/images/train # train images (relative to 'path')  16551 images
+val: det/images/test # val images (relative to 'path')  4952 images
+road_seg_train: seg/images/train
+road_seg_val: seg/images/test
 
 # Classes
-nc: 20  # number of classes
-segnv: 7
+nc: 11  # number of classes
+segnc: 11
 
-names: ['aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat', 'chair', 'cow', 'diningtable', 'dog',
-        'horse', 'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor']  # class names
+names: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']  # class names
 
-segnames: ['aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat', 'chair', 'cow', 'diningtable', 'dog',
-           'horse', 'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor']  # class names
+segnames: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']  # class names
 
 
 # Download script/URL (optional) ---------------------------------------------------------------------------------------
