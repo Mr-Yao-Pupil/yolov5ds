@@ -16,11 +16,11 @@ road_seg_val: seg/images/test
 
 # Classes
 nc: 11  # number of classes
-segnc: 11
+segnc: 12
 
 names: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']  # class names
 
-segnames: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']  # class names
+segnames: ['背景', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']  # class names
 
 
 # Download script/URL (optional) ---------------------------------------------------------------------------------------
