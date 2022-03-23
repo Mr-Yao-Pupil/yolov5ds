@@ -109,7 +109,9 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
     stride, names = model.stride[-1].item(), model.names
     # print("stride:",stride,imgsz)
     # stride, names, pt, jit, onnx, engine = model.stride, model.names, model.pt, model.jit, model.onnx, model.engine
-    clsnum = len(names)
+
+    # clsnum = len(names)
+    clsnum = 12
     colorlist = []
     for i in range(clsnum):
         colorlist.append([random.randint(0,255),random.randint(0,255),random.randint(0,255)])
@@ -278,11 +280,11 @@ def run(weights=ROOT / 'yolov5s.pt',  # model.pt path(s)
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'runs/train/exp86/weights/last.pt', help='model path(s)')
-    parser.add_argument('--source', type=str, default='VOC/seg/images/val', help='file/dir/URL/glob, 0 for webcam')
+    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'runs/train/exp/weights/best.pt', help='model path(s)')
+    parser.add_argument('--source', type=str, default='/home/lanyouai/YaozhichaoProject/dataset/ceymo/yolov5_with_seg_data/seg/images/test', help='file/dir/URL/glob, 0 for webcam')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[512], help='inference size h,w')
-    parser.add_argument('--conf-thres', type=float, default=0.25, help='confidence threshold')
-    parser.add_argument('--iou-thres', type=float, default=0.45, help='NMS IoU threshold')
+    parser.add_argument('--conf-thres', type=float, default=0.35, help='confidence threshold')
+    parser.add_argument('--iou-thres', type=float, default=0.35, help='NMS IoU threshold')
     parser.add_argument('--max-det', type=int, default=1000, help='maximum detections per image')
     parser.add_argument('--device', default='', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--view-img', action='store_true', help='show results')

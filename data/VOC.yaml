@@ -18,7 +18,7 @@ road_seg_val: seg/images/test
 nc: 11  # number of classes
 segnc: 12
 
-names: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']  # class names
+names: ['直行', '斑马线', '网格区域', '菱形', '左转-直行', 'SLOW', '左转', '非机动车标识', '右转', '右转', 'BUS LINE']  # class names
 
 segnames: ['背景', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']  # class names
 

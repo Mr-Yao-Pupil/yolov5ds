@@ -54,7 +54,7 @@ ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
 from models.common import Conv
 from models.experimental import attempt_load
-from models.yolo import Detect
+from models.yolodhs import Detect
 from utils.activations import SiLU
 from utils.datasets import LoadImages
 from utils.general import (LOGGER, check_dataset, check_img_size, check_requirements, colorstr, file_size, print_args,
@@ -91,7 +91,7 @@ def export_onnx(model, im, file, opset, train, dynamic, simplify, prefix=colorst
                           training=torch.onnx.TrainingMode.TRAINING if train else torch.onnx.TrainingMode.EVAL,
                           do_constant_folding=not train,
                           input_names=['images'],
-                          output_names=['output'],
+                          output_names=['output_64', 'output_32', 'output_16', 'output_seg'],
                           dynamic_axes={'images': {0: 'batch', 2: 'height', 3: 'width'},  # shape(1,3,640,640)
                                         'output': {0: 'batch', 1: 'anchors'}  # shape(1,25200,85)
                                         } if dynamic else None)
@@ -360,7 +360,9 @@ def run(data=ROOT / 'data/coco128.yaml',  # 'dataset.yaml path'
         elif isinstance(m, Detect):
             m.inplace = inplace
             m.onnx_dynamic = dynamic
-            # m.forward = m.forward_export  # assign forward (optional)
+            m.out_onnx = True
+            if hasattr(m, 'forward_export'):
+                m.forward = m.forward_export  # assign custom forward (optional)
 
     for _ in range(2):
         y = model(im)  # dry runs
@@ -398,9 +400,9 @@ def run(data=ROOT / 'data/coco128.yaml',  # 'dataset.yaml path'
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', type=str, default=ROOT / 'data/mini.yaml', help='dataset.yaml path')
-    parser.add_argument('--weights', type=str, default=ROOT / 'runs/train/exp13/weights/best.pt', help='weights path')
-    parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640, 640], help='image (h, w)')
+    parser.add_argument('--data', type=str, default=ROOT / 'data/VOC.yaml', help='dataset.yaml path')
+    parser.add_argument('--weights', type=str, default=ROOT / 'runs/train/exp/weights/best.pt', help='weights path')
+    parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[512, 512], help='image (h, w)')
     parser.add_argument('--batch-size', type=int, default=1, help='batch size')
     parser.add_argument('--device', default='cpu', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--half', action='store_true', help='FP16 half-precision export')
@@ -410,7 +412,7 @@ def parse_opt():
     parser.add_argument('--int8', action='store_true', help='CoreML/TF INT8 quantization')
     parser.add_argument('--dynamic', action='store_true', help='ONNX/TF: dynamic axes')
     parser.add_argument('--simplify', action='store_true', help='ONNX: simplify model')
-    parser.add_argument('--opset', type=int, default=13, help='ONNX: opset version')
+    parser.add_argument('--opset', type=int, default=12, help='ONNX: opset version')
     parser.add_argument('--verbose', action='store_true', help='TensorRT: verbose log')
     parser.add_argument('--workspace', type=int, default=4, help='TensorRT: workspace size (GB)')
     parser.add_argument('--topk-per-class', type=int, default=100, help='TF.js NMS: topk per class to keep')
